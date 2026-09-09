@@ -8,330 +8,340 @@
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Reenie+Beanie&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0a0a0a;
-    --fg:#e8e2d8;
-    --gold:#c9a55a;
-    --surface:#141414;
-    --surface-raised:#1f1f1f;
-    --muted:#8a8378;
-    --border:#292929;
+    --bg:#FDFCF8;
+    --ink:#292524;
+    --muted:#78716C;
+    --sage:#E8EFE8;
+    --lavender:#EFEDF4;
+    --coral:#FFB7B2;
+    --coral-deep:#F79992;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{ font-family:'Inter', sans-serif; background:var(--bg); color:var(--fg); }
-  .bodoni{ font-family:'Bodoni Moda', serif; }
-  .bodoni-i{ font-family:'Bodoni Moda', serif; font-style:italic; }
-  .label{ font-family:'Inter',sans-serif; font-weight:500; text-transform:uppercase; font-size:10px; letter-spacing:.16em; }
-  ::selection{ background:var(--gold); color:#0a0a0a; }
+  body{
+    font-family:'Outfit', sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+  }
+  .cursive{ font-family:'Reenie Beanie', cursive; }
+  ::selection{ background:var(--coral); color:#292524; }
 
-  @keyframes fadeUp{ from{opacity:0; transform:translateY(22px);} to{opacity:1; transform:translateY(0);} }
-  .stagger > *{ opacity:0; animation:fadeUp .9s cubic-bezier(0.16,1,0.3,1) forwards; }
-  .stagger > *:nth-child(1){ animation-delay:.05s; }
-  .stagger > *:nth-child(2){ animation-delay:.2s; }
-  .stagger > *:nth-child(3){ animation-delay:.35s; }
-  .stagger > *:nth-child(4){ animation-delay:.5s; }
+  /* grain overlay */
+  .grain{
+    position:fixed; inset:0; z-index:60; pointer-events:none;
+    opacity:.35; mix-blend-mode:overlay;
+  }
 
-  @keyframes chipIn{ from{opacity:0; transform:scale(.8);} to{opacity:1; transform:scale(1);} }
-  .chip-in{ opacity:0; animation:chipIn .7s cubic-bezier(0.16,1,0.3,1) forwards; animation-delay:.7s; }
+  @keyframes floatBlob{
+    0%,100%{ transform:translateY(0) scale(1); }
+    50%{ transform:translateY(-14px) scale(1.03); }
+  }
+  .blob{ animation:floatBlob 7s ease-in-out infinite; filter:blur(60px); }
 
-  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(0.16,1,0.3,1), transform .8s cubic-bezier(0.16,1,0.3,1); }
+  .reveal{
+    opacity:0; transform:translateY(26px);
+    transition:opacity .8s cubic-bezier(0.16,1,0.3,1), transform .8s cubic-bezier(0.16,1,0.3,1);
+  }
   .reveal.is-visible{ opacity:1; transform:translateY(0); }
-  .stagger-reveal.is-visible > *{ opacity:1; transform:translateY(0); }
-  .stagger-reveal > *{ opacity:0; transform:translateY(20px); transition:opacity .7s cubic-bezier(0.16,1,0.3,1), transform .7s cubic-bezier(0.16,1,0.3,1); }
-  .stagger-reveal.is-visible > *:nth-child(1){ transition-delay:.05s; }
-  .stagger-reveal.is-visible > *:nth-child(2){ transition-delay:.15s; }
-  .stagger-reveal.is-visible > *:nth-child(3){ transition-delay:.25s; }
-  .stagger-reveal.is-visible > *:nth-child(4){ transition-delay:.35s; }
-  .stagger-reveal.is-visible > *:nth-child(5){ transition-delay:.45s; }
-  .stagger-reveal.is-visible > *:nth-child(6){ transition-delay:.55s; }
 
-  .rule{ position:relative; height:1px; background:var(--border); overflow:hidden; }
-  .rule::after{ content:''; position:absolute; inset:0; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .6s cubic-bezier(0.16,1,0.3,1); }
-  .rule.is-visible::after{ transform:scaleX(1); }
+  .soft-shadow{ box-shadow:0 4px 20px -2px rgba(0,0,0,.05); }
 
-  .btn-gold{ background:var(--gold); color:#0a0a0a; transition:background .3s ease, transform .3s ease; }
-  .btn-gold:hover{ background:#dab873; transform:translateY(-2px); }
-  .btn-ghost{ border:1px solid rgba(232,226,216,.25); color:var(--fg); transition:all .3s ease; }
-  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold); }
+  .btn-primary{
+    background:var(--coral); color:var(--ink);
+    border-radius:9999px;
+    box-shadow:0 10px 26px -8px rgba(255,183,178,.7);
+    transition:transform .35s cubic-bezier(0.16,1,0.3,1), box-shadow .3s ease, background .3s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); background:var(--coral-deep); }
 
-  .gallery-item{ position:relative; overflow:hidden; }
-  .gallery-item img{ transition:transform .9s cubic-bezier(0.16,1,0.3,1); }
-  .gallery-item:hover img{ transform:scale(1.06); }
-  .gallery-item .ov{ position:absolute; inset:0; background:rgba(10,10,10,0); transition:background .4s ease; display:flex; align-items:flex-end; padding:20px; }
-  .gallery-item:hover .ov{ background:rgba(10,10,10,.6); }
-  .gallery-item .ov span{ opacity:0; transform:translateY(8px); transition:all .4s ease; }
-  .gallery-item:hover .ov span{ opacity:1; transform:translateY(0); }
+  .btn-ghost{
+    background:#fff; border:1px solid rgba(41,37,36,.12);
+    border-radius:9999px; color:var(--ink);
+    transition:all .3s ease;
+  }
+  .btn-ghost:hover{ border-color:rgba(41,37,36,.3); }
 
-  .service-row{ border-bottom:1px solid var(--border); transition:background .3s ease; }
-  .service-row:hover{ background:rgba(201,165,90,.04); }
-  .service-row:hover .service-name{ color:var(--gold); }
-  .service-row .arrow{ transition:transform .3s ease; }
-  .service-row:hover .arrow{ transform:translateX(6px); }
+  .nav-pill{
+    background:rgba(255,255,255,.7);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+  }
 
-  .accordion-item.open .accordion-content{ max-height:200px; }
-  .accordion-content{ max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(0.4,0,0.2,1); }
-  .accordion-item.open{ border-left-color:var(--gold); }
-  .accordion-icon{ transition:transform .3s ease; }
+  .hscroll{ scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+  .hscroll > *{ scroll-snap-align:start; }
+  .hscroll::-webkit-scrollbar{ display:none; }
+
+  .scenario-card{ transition:color .3s ease, transform .3s ease; }
+  .scenario-card:hover{ transform:translateY(-3px); }
+
+  .diary-card{ transform:rotate(-1deg); transition:transform .35s cubic-bezier(0.16,1,0.3,1); }
+  .diary-card:nth-child(even){ transform:rotate(1deg); }
+  .diary-card:hover{ transform:rotate(0deg) translateY(-4px); }
+
+  .accordion-content{
+    max-height:0; overflow:hidden;
+    transition:max-height .5s cubic-bezier(0.4,0,0.2,1);
+  }
+  .accordion-item.open .accordion-content{ max-height:220px; }
   .accordion-item.open .accordion-icon{ transform:rotate(45deg); }
+  .accordion-icon{ transition:transform .3s ease; }
 
-  .navblur{ backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+  .cascade-phone{
+    border-radius:2.5rem; overflow:hidden; position:relative;
+  }
 
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
   }
 </style>
 </head>
-<body>
+<body class="overflow-x-hidden">
 
-  <!-- NAVBAR -->
-  <header class="fixed top-0 left-0 right-0 z-50 navblur" style="background:rgba(10,10,10,.75); border-bottom:1px solid var(--border);">
-    <nav class="max-w-7xl mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
-      <a href="#" class="bodoni-i text-2xl" style="color:var(--gold)">Arco</a>
-      <div class="hidden md:flex items-center gap-10 label" style="color:var(--muted)">
-        <a href="#trabalhos" class="hover:text-[var(--fg)] transition-colors">Trabalhos</a>
-        <a href="#servicos" class="hover:text-[var(--fg)] transition-colors">Serviços</a>
-        <a href="#sobre" class="hover:text-[var(--fg)] transition-colors">Sobre</a>
-        <a href="#contato" class="hover:text-[var(--fg)] transition-colors">Contato</a>
+  <!-- grain -->
+  <svg class="grain" width="100%" height="100%">
+    <filter id="noiseFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="2" stitchTiles="stitch"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+  </svg>
+
+  <!-- ambient blobs (fixed, global) -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="blob absolute -top-20 -left-16 w-[420px] h-[420px] rounded-full" style="background:#FFE4E1; opacity:.6;"></div>
+    <div class="blob absolute top-[40vh] -right-24 w-[380px] h-[380px] rounded-full" style="background:#E6E6FA; opacity:.6; animation-delay:2s;"></div>
+    <div class="blob absolute top-[85vh] left-10 w-[300px] h-[300px] rounded-full" style="background:var(--sage); opacity:.7; animation-delay:4s;"></div>
+  </div>
+
+  <!-- NAV -->
+  <header class="fixed top-4 left-0 right-0 z-50 px-4">
+    <nav class="nav-pill max-w-xl mx-auto rounded-full px-3 py-2 flex items-center justify-between soft-shadow">
+      <a href="#" class="flex items-center gap-2 pl-2">
+        <span class="w-8 h-8 rounded-full flex items-center justify-center relative" style="background:var(--coral)">
+          <span class="w-2 h-2 rounded-full bg-white absolute"></span>
+        </span>
+        <span class="font-semibold text-[15px]">Arco</span>
+      </a>
+      <div class="hidden md:flex items-center gap-6 text-[14px] font-medium" style="color:var(--muted)">
+        <a href="#servicos" class="hover:text-[var(--ink)] transition-colors">Serviços</a>
+        <a href="#jornada" class="hover:text-[var(--ink)] transition-colors">Jornada</a>
+        <a href="#depoimentos" class="hover:text-[var(--ink)] transition-colors">Depoimentos</a>
       </div>
-      <a href="#contato" class="btn-ghost px-5 py-2.5 rounded-none label" style="border-color:var(--gold); color:var(--gold);">Agendar →</a>
+      <a href="#agenda" class="px-5 py-2.5 rounded-full text-[13px] font-semibold text-white" style="background:var(--ink)">Agendar</a>
     </nav>
   </header>
 
   <!-- HERO -->
-  <section class="relative min-h-screen overflow-hidden" style="background:var(--bg)">
-    <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?q=80&w=1600&auto=format&fit=crop"
-         alt="Retrato editorial em close-up, sobrancelha bem desenhada"
-         class="absolute right-0 top-0 h-full w-full md:w-[55%] object-cover object-top">
-    <div class="absolute left-0 top-0 h-full w-full md:w-[58%]"
-         style="background:linear-gradient(to right, rgba(10,10,10,1) 0%, rgba(10,10,10,.92) 60%, rgba(10,10,10,.5) 85%, transparent 100%)"></div>
-    <div class="md:hidden absolute inset-0" style="background:linear-gradient(to bottom, rgba(10,10,10,.2) 0%, rgba(10,10,10,1) 62%)"></div>
-
-    <div class="relative z-10 min-h-screen flex items-center px-6 md:px-[5vw]">
-      <div class="stagger max-w-xl pt-24 md:pt-0">
-        <span class="label block mb-6" style="color:var(--gold)">Estúdio de Sobrancelhas · Presencial &amp; por Indicação</span>
-        <h1 class="bodoni-i" style="font-weight:700; font-size:clamp(52px,8vw,104px); line-height:.9; color:var(--fg);">
-          Arte<br>no Olhar.
-        </h1>
-        <p class="mt-8 max-w-sm text-[16px] leading-relaxed" style="color:var(--muted); font-weight:300;">
-          Design, micropigmentação e laminação — sobrancelhas pensadas para serem notadas, fotografadas e lembradas.
-        </p>
-        <div class="mt-10 flex flex-wrap items-center gap-4">
-          <a href="#trabalhos" class="btn-gold px-7 py-3.5 label">Ver portfólio →</a>
-          <a href="#contato" class="btn-ghost px-7 py-3.5 label">Agendar avaliação</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="chip-in hidden md:block absolute z-20" style="bottom:9%; right:5%; width:120px; height:160px;">
-      <img src="https://images.unsplash.com/photo-1542833807-ad5af0977050?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover" style="border:1px solid rgba(232,226,216,.2)" alt="Detalhe de sobrancelha e olho">
-    </div>
-  </section>
-
-  <!-- SELECTED WORK -->
-  <section id="trabalhos" class="py-28 px-6 md:px-10" style="background:var(--bg)">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="reveal bodoni-i text-center text-4xl md:text-5xl mb-16" style="color:var(--fg)">Trabalhos Selecionados</h2>
-
-      <div class="stagger-reveal grid grid-cols-2 md:grid-cols-3 gap-[3px]">
-        <div class="gallery-item aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1547078902-2911dfaaa53a?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Design de sobrancelha, retrato">
-          <div class="ov"><span class="label text-white">Design</span></div>
-        </div>
-        <div class="gallery-item aspect-[4/3]">
-          <img src="https://images.unsplash.com/photo-1534143826428-81fc61582afd?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Retrato de rosto, pele natural">
-          <div class="ov"><span class="label text-white">Editorial</span></div>
-        </div>
-        <div class="gallery-item aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1666858619985-701e36b3bc57?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Close-up de olho, micropigmentação">
-          <div class="ov"><span class="label text-white">Micropigmentação</span></div>
-        </div>
-        <div class="gallery-item aspect-[4/3]">
-          <img src="https://images.unsplash.com/photo-1637851496670-2bdc6c548d27?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Mão no rosto, sobrancelha laminada">
-          <div class="ov"><span class="label text-white">Laminação</span></div>
-        </div>
-        <div class="gallery-item aspect-[3/4]">
-          <img src="https://images.unsplash.com/photo-1516220362602-dba5272034e7?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Close-up de olho, detalhe de cílios">
-          <div class="ov"><span class="label text-white">Cílios</span></div>
-        </div>
-        <div class="gallery-item aspect-[4/3]">
-          <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Retrato editorial em estúdio">
-          <div class="ov"><span class="label text-white">Ocasiões</span></div>
-        </div>
+  <section class="relative pt-40 pb-24 px-6 text-center">
+    <div class="max-w-2xl mx-auto reveal is-visible">
+      <span class="inline-block px-4 py-1.5 rounded-full text-[13px] font-medium mb-6" style="background:var(--sage); color:var(--ink)">um ritual, não uma correria</span>
+      <h1 class="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.05] mb-6">
+        Sobrancelhas com <span class="cursive text-[1.35em]" style="color:var(--coral-deep)">calma</span> e propósito
+      </h1>
+      <p class="max-w-md mx-auto text-lg mb-10" style="color:var(--muted)">
+        Um estúdio pequeno onde cada sessão começa devagar: respiração, avaliação do formato, e só então a técnica certa para você.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#agenda" class="btn-primary px-8 py-4 font-semibold text-[15px]">Agendar sessão</a>
+        <a href="#jornada" class="btn-ghost px-8 py-4 font-medium text-[15px]">Como funciona</a>
       </div>
     </div>
   </section>
 
-  <!-- SERVICES -->
-  <section id="servicos" class="py-28 px-6 md:px-10" style="background:var(--surface)">
+  <!-- HORIZONTAL SCENARIO SCROLL -->
+  <section class="py-8">
+    <div class="hscroll flex gap-5 overflow-x-auto px-6 pb-4">
+      <div class="scenario-card shrink-0 w-[288px] h-[160px] bg-white rounded-3xl soft-shadow p-6 flex flex-col justify-between">
+        <span class="text-[13px]" style="color:#A8A29E">08:30</span>
+        <span class="text-xl font-medium">Chá antes de começar</span>
+      </div>
+      <div class="scenario-card shrink-0 w-[288px] h-[160px] bg-white rounded-3xl soft-shadow p-6 flex flex-col justify-between">
+        <span class="text-[13px]" style="color:#A8A29E">09:00</span>
+        <span class="text-xl font-medium">Avaliação do formato</span>
+      </div>
+      <div class="scenario-card shrink-0 w-[288px] h-[160px] bg-white rounded-3xl soft-shadow p-6 flex flex-col justify-between">
+        <span class="text-[13px]" style="color:#A8A29E">09:20</span>
+        <span class="text-xl font-medium">Design fio a fio</span>
+      </div>
+      <div class="scenario-card shrink-0 w-[288px] h-[160px] bg-white rounded-3xl soft-shadow p-6 flex flex-col justify-between">
+        <span class="text-[13px]" style="color:#A8A29E">10:10</span>
+        <span class="text-xl font-medium">Espelho, sem pressa</span>
+      </div>
+      <div class="scenario-card shrink-0 w-[288px] h-[160px] bg-white rounded-3xl soft-shadow p-6 flex flex-col justify-between">
+        <span class="text-[13px]" style="color:#A8A29E">10:25</span>
+        <span class="text-xl font-medium">Orientações de cuidado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS / CASCATA -->
+  <section id="servicos" class="px-6 py-24">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+
+      <div class="reveal">
+        <h2 class="text-4xl sm:text-5xl font-semibold tracking-tight mb-6 leading-[1.1]">O cuidado certo para cada fase da sobrancelha</h2>
+        <p class="text-lg mb-10" style="color:var(--muted)">Não empurramos a técnica mais cara. Indicamos a que o seu fio realmente precisa agora.</p>
+
+        <div class="space-y-4">
+          <div class="flex items-start gap-4 bg-white rounded-3xl p-5 soft-shadow">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style="background:var(--sage)">
+              <iconify-icon icon="lucide:leaf" style="color:#5B7A63"></iconify-icon>
+            </div>
+            <div>
+              <h3 class="font-semibold text-[16px]">Design com henna</h3>
+              <p class="text-[14px]" style="color:var(--muted)">Correção suave, dura de 2 a 4 semanas.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-white rounded-3xl p-5 soft-shadow">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style="background:var(--lavender)">
+              <iconify-icon icon="lucide:feather" style="color:#7E76A8"></iconify-icon>
+            </div>
+            <div>
+              <h3 class="font-semibold text-[16px]">Micropigmentação fio a fio</h3>
+              <p class="text-[14px]" style="color:var(--muted)">Para falhas e sobrancelhas ralas, resultado natural.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-white rounded-3xl p-5 soft-shadow">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style="background:var(--coral); opacity:.9">
+              <iconify-icon icon="lucide:wind" style="color:#fff"></iconify-icon>
+            </div>
+            <div>
+              <h3 class="font-semibold text-[16px]">Laminação</h3>
+              <p class="text-[14px]" style="color:var(--muted)">Fios penteados e disciplinados, sem manutenção diária.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- cascading trio adapted from "app experience preview" -->
+      <div class="reveal relative h-[560px] flex items-center justify-center">
+        <div class="cascade-phone absolute w-[220px] h-[440px] soft-shadow opacity-80" style="left:6%; top:44px; background:var(--sage);">
+          <img src="https://images.unsplash.com/photo-1534143826428-81fc61582afd?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover opacity-90" alt="Antes da sessão">
+          <span class="absolute bottom-4 left-4 text-white text-[12px] font-semibold bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">antes</span>
+        </div>
+        <div class="cascade-phone absolute w-[240px] h-[480px] soft-shadow z-10" style="background:var(--lavender);">
+          <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?q=80&w=700&auto=format&fit=crop" class="w-full h-full object-cover" alt="Durante a sessão">
+          <span class="absolute bottom-5 left-5 text-white text-[13px] font-semibold bg-black/30 px-3 py-1.5 rounded-full backdrop-blur-sm">durante</span>
+        </div>
+        <div class="cascade-phone absolute w-[220px] h-[440px] soft-shadow opacity-80" style="right:6%; top:88px; background:var(--coral);">
+          <img src="https://images.unsplash.com/photo-1547078902-2911dfaaa53a?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover opacity-90" alt="Depois da sessão">
+          <span class="absolute bottom-4 left-4 text-white text-[12px] font-semibold bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">depois</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JORNADA -->
+  <section id="jornada" class="px-6 py-24" style="background:var(--sage)">
+    <div class="max-w-5xl mx-auto text-center reveal">
+      <h2 class="text-4xl sm:text-5xl font-semibold tracking-tight mb-4">Uma sessão, sem etapas puladas</h2>
+      <p class="max-w-md mx-auto mb-16" style="color:var(--muted)">Do primeiro contato até a manutenção, cada passo é combinado com você antes de acontecer.</p>
+    </div>
+    <div class="max-w-5xl mx-auto grid md:grid-cols-4 gap-6">
+      <div class="reveal bg-white rounded-3xl p-7 soft-shadow text-center">
+        <div class="cursive text-4xl mb-2" style="color:var(--coral-deep)">um</div>
+        <h3 class="font-semibold mb-1">Conversa inicial</h3>
+        <p class="text-[13px]" style="color:var(--muted)">Entendemos rotina e expectativa.</p>
+      </div>
+      <div class="reveal bg-white rounded-3xl p-7 soft-shadow text-center">
+        <div class="cursive text-4xl mb-2" style="color:var(--coral-deep)">dois</div>
+        <h3 class="font-semibold mb-1">Avaliação</h3>
+        <p class="text-[13px]" style="color:var(--muted)">Formato do rosto e crescimento dos fios.</p>
+      </div>
+      <div class="reveal bg-white rounded-3xl p-7 soft-shadow text-center">
+        <div class="cursive text-4xl mb-2" style="color:var(--coral-deep)">três</div>
+        <h3 class="font-semibold mb-1">Execução</h3>
+        <p class="text-[13px]" style="color:var(--muted)">Com pausas para você conferir.</p>
+      </div>
+      <div class="reveal bg-white rounded-3xl p-7 soft-shadow text-center">
+        <div class="cursive text-4xl mb-2" style="color:var(--coral-deep)">quatro</div>
+        <h3 class="font-semibold mb-1">Retorno</h3>
+        <p class="text-[13px]" style="color:var(--muted)">Agendado no prazo certo da técnica.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS / DIARY -->
+  <section id="depoimentos" class="px-6 py-24">
     <div class="max-w-5xl mx-auto">
-      <h2 class="reveal bodoni-i text-4xl md:text-5xl mb-16" style="color:var(--fg)">O Que Ofereço</h2>
-
-      <div>
-        <div class="service-row reveal py-8 flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <span class="service-name bodoni-i text-2xl md:text-3xl transition-colors" style="color:var(--fg)">Design com Henna</span>
-          <div class="flex items-center gap-6 md:max-w-md">
-            <p class="text-[14px]" style="color:var(--muted); font-weight:300;">Correção de formato e preenchimento com tinta vegetal — dura de 2 a 4 semanas.</p>
-            <span class="shrink-0 label" style="color:var(--gold)">a partir de R$120</span>
-            <iconify-icon icon="lucide:arrow-right" class="arrow shrink-0" style="color:var(--gold)"></iconify-icon>
-          </div>
+      <h2 class="reveal text-4xl sm:text-5xl font-semibold tracking-tight mb-14 text-center">Páginas do nosso diário</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="reveal diary-card bg-white rounded-3xl p-8 soft-shadow">
+          <p class="text-[16px] leading-relaxed mb-6">"Fui achando que ia ser rápido e acabei ficando quase duas horas — mas foi a primeira vez que saí sem achar que precisava corrigir depois."</p>
+          <div class="w-8 border-t mb-3" style="border-color:#D6D3D1"></div>
+          <span class="cursive text-2xl" style="color:var(--muted)">Camila R.</span>
         </div>
-        <div class="service-row reveal py-8 flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <span class="service-name bodoni-i text-2xl md:text-3xl transition-colors" style="color:var(--fg)">Micropigmentação</span>
-          <div class="flex items-center gap-6 md:max-w-md">
-            <p class="text-[14px]" style="color:var(--muted); font-weight:300;">Traço fio a fio para falhas e sobrancelhas ralas — resultado dura cerca de 12 meses.</p>
-            <span class="shrink-0 label" style="color:var(--gold)">a partir de R$450</span>
-            <iconify-icon icon="lucide:arrow-right" class="arrow shrink-0" style="color:var(--gold)"></iconify-icon>
-          </div>
-        </div>
-        <div class="service-row reveal py-8 flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <span class="service-name bodoni-i text-2xl md:text-3xl transition-colors" style="color:var(--fg)">Laminação</span>
-          <div class="flex items-center gap-6 md:max-w-md">
-            <p class="text-[14px]" style="color:var(--muted); font-weight:300;">Fios alinhados e penteados, sem manutenção diária — dura de 6 a 8 semanas.</p>
-            <span class="shrink-0 label" style="color:var(--gold)">a partir de R$180</span>
-            <iconify-icon icon="lucide:arrow-right" class="arrow shrink-0" style="color:var(--gold)"></iconify-icon>
-          </div>
-        </div>
-        <div class="service-row reveal py-8 flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <span class="service-name bodoni-i text-2xl md:text-3xl transition-colors" style="color:var(--fg)">Ocasiões Especiais</span>
-          <div class="flex items-center gap-6 md:max-w-md">
-            <p class="text-[14px]" style="color:var(--muted); font-weight:300;">Produção para eventos, casamentos e ensaios — atendimento no local sob consulta.</p>
-            <span class="shrink-0 label" style="color:var(--gold)">a partir de R$90</span>
-            <iconify-icon icon="lucide:arrow-right" class="arrow shrink-0" style="color:var(--gold)"></iconify-icon>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="sobre" class="py-28 px-6 md:px-10" style="background:var(--bg)">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-      <div class="reveal order-2 md:order-1">
-        <h2 class="bodoni-i text-4xl md:text-5xl mb-8" style="color:var(--fg)">A Profissional</h2>
-        <p class="bodoni-i text-2xl md:text-3xl leading-snug mb-8" style="color:var(--gold)">
-          "A sobrancelha é a moldura que muda a cada seis semanas — por isso cada desenho é único."
-        </p>
-        <div class="space-y-4 text-[15px] leading-relaxed" style="color:var(--muted); font-weight:300;">
-          <p>Formada em Design de Sobrancelhas e Micropigmentação, com passagem por estúdios de beleza em São Paulo antes de abrir o Arco. Seis anos dedicados só ao que fica entre os olhos.</p>
-          <p>Atende clientes de rotina, noivas em preparação e produções para ensaios fotográficos — sempre com agenda por horário marcado e uma cliente por vez.</p>
-        </div>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <span class="px-4 py-2 label" style="border:1px solid var(--border); color:var(--gold)">Design &amp; Micropigmentação</span>
-          <span class="px-4 py-2 label" style="border:1px solid var(--border); color:var(--gold)">6 Anos de Estúdio</span>
-          <span class="px-4 py-2 label" style="border:1px solid var(--border); color:var(--gold)">Especialista Fio a Fio</span>
-        </div>
-      </div>
-      <div class="reveal order-1 md:order-2 aspect-[3/4] overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1637851496670-2bdc6c548d27?q=80&w=900&auto=format&fit=crop" class="w-full h-full object-cover" alt="Profissional em atendimento, close-up de mãos e rosto">
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section id="depoimentos" class="py-28 px-6 md:px-10" style="background:var(--surface)">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="reveal bodoni-i text-center text-4xl md:text-5xl mb-16" style="color:var(--fg)">Depoimentos</h2>
-      <div class="stagger-reveal grid md:grid-cols-3 gap-6">
-        <div class="p-8" style="background:var(--surface-raised); border:1px solid var(--border);">
-          <div class="flex gap-1 mb-5" style="color:var(--gold)">
-            <iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon>
-          </div>
-          <p class="bodoni-i text-xl leading-snug mb-6" style="color:var(--fg)">"Nunca tinham me explicado o porquê do formato antes de começar. Isso mudou como eu olho pro espelho."</p>
-          <span class="label" style="color:var(--muted)">Juliana P. · Cliente de rotina</span>
-        </div>
-        <div class="p-8" style="background:var(--surface-raised); border:1px solid var(--border);">
-          <div class="flex gap-1 mb-5" style="color:var(--gold)">
-            <iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon>
-          </div>
-          <p class="bodoni-i text-xl leading-snug mb-6" style="color:var(--fg)">"Fiz a laminação para o meu casamento e ainda estava perfeita nas fotos, três semanas depois."</p>
-          <span class="label" style="color:var(--muted)">Camila R. · Noiva</span>
-        </div>
-        <div class="p-8" style="background:var(--surface-raised); border:1px solid var(--border);">
-          <div class="flex gap-1 mb-5" style="color:var(--gold)">
-            <iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon><iconify-icon icon="lucide:star"></iconify-icon>
-          </div>
-          <p class="bodoni-i text-xl leading-snug mb-6" style="color:var(--fg)">"Sala só minha, sem barulho do lado. Vale cada minuto de antecedência pra marcar horário."</p>
-          <span class="label" style="color:var(--muted)">Beatriz A. · Ensaio fotográfico</span>
+        <div class="reveal diary-card bg-white rounded-3xl p-8 soft-shadow">
+          <p class="text-[16px] leading-relaxed mb-6">"Nunca tinha me explicado o porquê do formato antes de começar. Isso mudou como eu olho pro espelho depois."</p>
+          <div class="w-8 border-t mb-3" style="border-color:#D6D3D1"></div>
+          <span class="cursive text-2xl" style="color:var(--muted)">Juliana P.</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="py-28 px-6 md:px-10" style="background:var(--bg)">
+  <section class="px-6 py-16">
     <div class="max-w-2xl mx-auto">
-      <h2 class="reveal bodoni-i text-center text-4xl md:text-5xl mb-14" style="color:var(--fg)">Perguntas Frequentes</h2>
-      <div class="space-y-3">
-        <div class="accordion-item reveal pl-6 py-5" style="border-left:1px solid var(--border); transition:border-color .3s ease;">
-          <button class="w-full flex items-center justify-between text-left" style="color:var(--fg)">
-            <span class="font-medium">Você atende para eventos e ensaios?</span>
-            <iconify-icon icon="lucide:plus" class="accordion-icon" style="color:var(--gold)"></iconify-icon>
+      <h2 class="reveal text-3xl sm:text-4xl font-semibold tracking-tight mb-10 text-center">Perguntas frequentes</h2>
+      <div class="space-y-4" id="faq">
+        <div class="accordion-item reveal bg-white rounded-2xl border p-6" style="border-color:#F1EFEA">
+          <button class="w-full flex items-center justify-between text-left font-medium text-[16px]">
+            Quanto tempo dura uma sessão?
+            <iconify-icon icon="lucide:plus" class="accordion-icon"></iconify-icon>
           </button>
           <div class="accordion-content">
-            <p class="pt-4 text-[14px]" style="color:var(--muted); font-weight:300;">Sim, atendo em estúdio ou no local mediante consulta prévia de agenda e deslocamento.</p>
+            <p class="pb-2 pt-4 text-[14px]" style="color:var(--muted)">Em média 90 minutos, incluindo a conversa e a avaliação inicial. Não cronometramos a sessão em si.</p>
           </div>
         </div>
-        <div class="accordion-item reveal pl-6 py-5" style="border-left:1px solid var(--border); transition:border-color .3s ease;">
-          <button class="w-full flex items-center justify-between text-left" style="color:var(--fg)">
-            <span class="font-medium">Com quanto tempo devo agendar para o casamento?</span>
-            <iconify-icon icon="lucide:plus" class="accordion-icon" style="color:var(--gold)"></iconify-icon>
+        <div class="accordion-item reveal bg-white rounded-2xl border p-6" style="border-color:#F1EFEA">
+          <button class="w-full flex items-center justify-between text-left font-medium text-[16px]">
+            Preciso vir sem maquiagem?
+            <iconify-icon icon="lucide:plus" class="accordion-icon"></iconify-icon>
           </button>
           <div class="accordion-content">
-            <p class="pt-4 text-[14px]" style="color:var(--muted); font-weight:300;">Recomendo pelo menos 6 semanas antes, para haver tempo de um teste e ajustes de manutenção.</p>
+            <p class="pb-2 pt-4 text-[14px]" style="color:var(--muted)">Não é obrigatório, mas ajuda na avaliação do formato natural. Temos removedor no estúdio se precisar.</p>
           </div>
         </div>
-        <div class="accordion-item reveal pl-6 py-5" style="border-left:1px solid var(--border); transition:border-color .3s ease;">
-          <button class="w-full flex items-center justify-between text-left" style="color:var(--fg)">
-            <span class="font-medium">Preciso vir sem maquiagem?</span>
-            <iconify-icon icon="lucide:plus" class="accordion-icon" style="color:var(--gold)"></iconify-icon>
+        <div class="accordion-item reveal bg-white rounded-2xl border p-6" style="border-color:#F1EFEA">
+          <button class="w-full flex items-center justify-between text-left font-medium text-[16px]">
+            Com que frequência preciso voltar?
+            <iconify-icon icon="lucide:plus" class="accordion-icon"></iconify-icon>
           </button>
           <div class="accordion-content">
-            <p class="pt-4 text-[14px]" style="color:var(--muted); font-weight:300;">Não é obrigatório, mas ajuda na avaliação. Temos removedor no estúdio se precisar.</p>
-          </div>
-        </div>
-        <div class="accordion-item reveal pl-6 py-5" style="border-left:1px solid var(--border); transition:border-color .3s ease;">
-          <button class="w-full flex items-center justify-between text-left" style="color:var(--fg)">
-            <span class="font-medium">Com que frequência preciso retornar?</span>
-            <iconify-icon icon="lucide:plus" class="accordion-icon" style="color:var(--gold)"></iconify-icon>
-          </button>
-          <div class="accordion-content">
-            <p class="pt-4 text-[14px]" style="color:var(--muted); font-weight:300;">Varia por técnica: henna a cada 3 semanas, laminação a cada 6 a 8, micropigmentação uma vez por ano.</p>
+            <p class="pb-2 pt-4 text-[14px]" style="color:var(--muted)">Varia por técnica: henna a cada 3 semanas, laminação a cada 6 a 8, micropigmentação uma vez por ano.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ENQUIRY CTA -->
-  <section id="contato" class="py-28 px-6 md:px-10 text-center" style="background:var(--gold)">
-    <div class="reveal max-w-2xl mx-auto">
-      <h2 class="bodoni" style="font-weight:700; font-size:clamp(34px,5vw,54px); color:var(--bg); line-height:1.1;">Vamos Desenhar Algo Bonito</h2>
-      <p class="mt-6 text-[16px]" style="color:rgba(10,10,10,.75); font-weight:300;">Todo atendimento começa com uma conversa — me conte o que você busca e eu digo como posso ajudar.</p>
-      <a href="#" class="inline-block mt-10 px-9 py-4 label" style="background:var(--bg); color:var(--fg);">Enviar mensagem →</a>
-      <p class="mt-8 label" style="color:rgba(10,10,10,.6)">Atendimento em São Paulo · Agenda por horário marcado</p>
+  <!-- WAITLIST / CONVERSÃO -->
+  <section id="agenda" class="px-6 py-20">
+    <div class="reveal max-w-3xl mx-auto text-center rounded-[3rem] p-14" style="background:var(--ink)">
+      <div class="w-14 h-14 rounded-2xl mx-auto mb-6 flex items-center justify-center relative" style="background:var(--coral)">
+        <iconify-icon icon="lucide:calendar-heart" style="color:var(--ink)" width="22"></iconify-icon>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-semibold text-white mb-4">Reserve seu horário</h2>
+      <p class="text-white/60 max-w-sm mx-auto mb-8">Agenda limitada por semana para manter a calma de cada sessão. Deixe seu contato que respondemos em até um dia útil.</p>
+      <form class="max-w-sm mx-auto flex gap-2">
+        <input type="email" placeholder="seu e-mail" class="flex-1 rounded-full px-5 py-3.5 text-[14px]" style="background:#3B3634; color:#fff;">
+        <button class="rounded-full px-6 py-3.5 font-semibold text-[14px] transition-transform hover:scale-105" style="background:#fff; color:var(--ink)">Enviar</button>
+      </form>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="py-16 px-6 md:px-10" style="background:var(--bg); border-top:1px solid var(--border);">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-      <span class="bodoni-i text-2xl" style="color:var(--gold)">Arco</span>
-      <div class="flex gap-8 label" style="color:var(--muted)">
-        <a href="#" class="hover:text-[var(--gold)] transition-colors">Instagram</a>
-        <a href="#" class="hover:text-[var(--gold)] transition-colors">WhatsApp</a>
-        <a href="#" class="hover:text-[var(--gold)] transition-colors">Localização</a>
-      </div>
-      <span class="label" style="color:var(--muted)">© 2025 Arco · Estúdio de Sobrancelhas · São Paulo</span>
-    </div>
+  <footer class="px-6 py-10 text-center text-[12px]" style="color:var(--muted)">
+    <p>&copy; 2025 Arco Estúdio de Sobrancelhas · Seg a sáb, 9h–19h</p>
   </footer>
 
 <script>
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) {
-    document.querySelectorAll('.reveal, .rule, .stagger-reveal').forEach(el => el.classList.add('is-visible'));
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
   } else {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -341,7 +351,7 @@
         }
       });
     }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal, .rule, .stagger-reveal').forEach(el => io.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   }
 
   document.querySelectorAll('.accordion-item button').forEach(btn => {
